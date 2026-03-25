@@ -1,0 +1,51 @@
+modules = ["nodejs-20"]
+[agent]
+expertMode = true
+
+[nix]
+channel = "stable-25_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
+[[workflows.workflow]]
+name = "Start application"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "EXPO_WEB_OPEN=0 npx expo start --web --port 5000 --localhost"
+waitForPort = 5000
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[deployment]
+deploymentTarget = "static"
+build = ["npx", "expo", "export", "--platform", "web"]
+publicDir = "dist"
+
+[userenv]
+
+[userenv.shared]
+EXPO_PUBLIC_FIREBASE_API_KEY = "AIzaSyATKUoiVdv9W50rXobgh5qFhsCehmff1Yg"
+EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN = "a7-cricket.firebaseapp.com"
+EXPO_PUBLIC_FIREBASE_PROJECT_ID = "a7-cricket"
+EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET = "a7-cricket.firebasestorage.app"
+EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID = "127154040305"
+EXPO_PUBLIC_FIREBASE_APP_ID = "1:127154040305:web:4c72b512da3910e771e850"
+EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID = "G-WSZZJ8T2YX"
+EXPO_PUBLIC_FIREBASE_DATABASE_URL = "https://a7-cricket-default-rtdb.firebaseio.com"
